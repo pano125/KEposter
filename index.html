@@ -12,13 +12,29 @@
     <a-scene id="scene">
       <a-assets>
         <img id="poster" src="KEposter/poster.png">
-        <video id="video" src="KEposter/video.mp4" autoplay loop></video>
+        <video id="video" src="KEposter/video.mp4" autoplay loop="true" crossorigin="anonymous"></video>
       </a-assets>
 
-      <a-image src="#poster" position="0 1 -3" scale="1 1 1"></a-image>
-      <a-video src="#video" position="0 1 -2" scale="1 1 1"></a-video>
+      <!-- Статичное изображение -->
+      <a-image id="posterImage" src="#poster" position="0 1 -3" scale="1 1 1"
+                event-set__enter="_event: mouseenter; _target: #posterImage; visible: false"
+                event-set__leave="_event: mouseleave; _target: #posterImage; visible: true"></a-image>
+
+      <!-- Видео -->
+      <a-video id="videoElement" src="#video" position="0 1 -3" scale="1 1 1"
+               visible="false"></a-video>
 
       <a-camera position="0 1.6 0"></a-camera>
+
+      <!-- Событие для переключения между изображением и видео -->
+      <a-entity event-set__click="_event: click; _target: #posterImage; visible: false; _target: #videoElement; visible: true"></a-entity>
     </a-scene>
+
+    <script>
+      // Убедитесь, что видео воспроизводится автоматически
+      document.querySelector('#videoElement').addEventListener('loadeddata', function() {
+        this.play();
+      });
+    </script>
   </body>
 </html>
